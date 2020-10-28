@@ -1,7 +1,7 @@
 import { Document } from "mongoose";
 
 export class User extends Document {
-    id : string
+    _id : string
     username : string
     email : string
     password : string
@@ -9,4 +9,5 @@ export class User extends Document {
     created : Date
     updated : Date
     deleted : Date
+    token ?: string
 }

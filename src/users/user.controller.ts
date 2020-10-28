@@ -1,7 +1,8 @@
 import { Controller, Get, HttpException, HttpStatus, Param, Post } from "@nestjs/common";
+import { APP_CONFIG } from "src/shared/config";
 import { UserService } from "./user.service";
 
-@Controller('users')
+@Controller(`${APP_CONFIG.apiVersion}/users`)
 export class UserController {
     constructor(private readonly userService : UserService) {}
 
