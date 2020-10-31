@@ -32,7 +32,7 @@ export class RoomService {
         return await room.save()
     }
 
-    async findMessages(id: stri ng, limit: number): Promise<Message[]> {
+    async findMessages(id: string, limit: number): Promise<Message[]> {
         let room = await this.findByLimit(id, limit)
 
         if (!room) {

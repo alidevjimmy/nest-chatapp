@@ -1,10 +1,11 @@
 import { Body, Controller, Get, HttpException, HttpStatus, Param, Post, Put, UsePipes, ValidationPipe } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
+import { APP_CONFIG } from "src/shared/config";
 import { RoomDto } from "./dto/room.dto";
 import { Room } from "./interface/room.interface";
 import { RoomService } from "./room.service";
 
-@Controller('rooms')
+@Controller(`${APP_CONFIG.apiVersion}/rooms`)
 export class RoomController {
     constructor(private readonly roomService : RoomService) {}
 
