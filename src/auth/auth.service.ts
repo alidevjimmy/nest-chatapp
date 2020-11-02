@@ -15,7 +15,7 @@ export class AuthService {
     // register user
     async register(user : UserRegisterDto) : Promise<User>{
         const {username , email ,password} = user
-        const checkUser = await this.userModel.where('username',username).where('email' , email).countDocuments()
+        const checkUser = await this.userModel.find({$or : [{username} , {email}]}).countDocuments()
         if (checkUser > 0) {
             throw new HttpException('user already exists!' , HttpStatus.BAD_REQUEST)
         }
