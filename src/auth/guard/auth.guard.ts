@@ -7,23 +7,24 @@ import { JwtService } from '../jwt/jwt.service';
 export class AuthGuard implements CanActivate {
     constructor(private readonly jwtService : JwtService) {}
 
-    canActivate(
+    async canActivate(
         context: ExecutionContext,
-    ): boolean | Promise<boolean> | Observable<boolean> {
+    ) {
         const request = context.switchToHttp().getRequest();
         const token = request.headers.authorization
         if (!token) {
             throw new HttpException('token is invalid', HttpStatus.UNAUTHORIZED)
         }
-        this.validateRequest(token)
+        const user = await this.validateRequest(token)
+        request.user = user
         return true
     }
 
-    private validateRequest(token: string) {
+    private async validateRequest(token: string) {
         const [bearer , getToken] = token.split(' ')
-        if (!bearer) {
+        if (!bearer || bearer != 'Bearer') {
             throw new HttpException('token is invalid', HttpStatus.UNAUTHORIZED)
         }
-        this.jwtService.verify(getToken)
+        return await this.jwtService.verify(getToken)
     }
 }

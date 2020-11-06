@@ -5,9 +5,10 @@ import { RoomController } from "./room.controller";
 import { MessageSchema } from "./schema/message.schema";
 import { RoomSchema } from "./schema/room.schema";
 import {RoomService} from './room.service'
+import { AuthModule } from "src/auth/auth.module";
 
 @Module({
-    imports : [MongooseModule.forFeature([
+    imports : [AuthModule,MongooseModule.forFeature([
         {name : 'User' , schema : UserSchema}, 
         {name : 'Message' , schema : MessageSchema},
         {name : 'Room' , schema : RoomSchema}

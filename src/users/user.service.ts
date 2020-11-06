@@ -18,7 +18,7 @@ export class UserService {
 
     async find(id : string): Promise<User> {
         let user = await this.userModel.findById(id).exec()
-        return user.schema.methods.serialize(user)
+        return await user.schema.methods.serialize(user)
     }
 
 }

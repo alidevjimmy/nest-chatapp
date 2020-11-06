@@ -1,17 +1,20 @@
 import { IsBoolean, IsDefined, IsString } from "class-validator";
+import { User } from "src/users/interface/user.interface";
 
 export class RoomDto {
-    @IsString()
+    // @IsString()
+    // @IsDefined()
+    // name : string = ""
+
     @IsDefined()
-    name : string
-
     @IsString()
-    @IsDefined()
-    description : string
+    tergetUserId : string
 
-    @IsBoolean()
-    isUser?: boolean
+    // @IsBoolean()
+    // isUser?: boolean
 
-    @IsBoolean()
-    isPrivate?: boolean
+    // @IsBoolean()
+    // isPrivate?: boolean
+
+    
 }

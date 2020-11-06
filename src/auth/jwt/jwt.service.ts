@@ -8,7 +8,9 @@ import { UserService } from "src/users/user.service";
 export class JwtService {
     constructor(private readonly userService: UserService) { }
 
-    async token(user: { _id: string, username: string, email: string }): Promise<string> {
+    token(user: {
+        "_id" , "isActive" , "username" , "email" ,"password" , "created" , "updated"
+    }): Promise<string> {
         const token = jwt.sign(user, APP_CONFIG.jwtSecert, { expiresIn: '7d' })
         return token
     }
@@ -16,13 +18,12 @@ export class JwtService {
     async verify(token: string, isWs: boolean = false) {
         try {
             const payload = jwt.verify(token, APP_CONFIG.jwtSecert)
-            const user = await this.userService.find(payload.sub._id)
-
+            const user = await this.userService.find(payload._id)
             if (!user) {
                 if (isWs) {
                     throw new WsException('token is invalid')
                 } else {
-                    throw new HttpException('', HttpStatus.UNAUTHORIZED)
+                    throw new HttpException('invalid token 1)', HttpStatus.UNAUTHORIZED)
                 }
             }
 
@@ -32,7 +33,7 @@ export class JwtService {
             if (isWs) {
                 throw new WsException('token is invalid')
             } else {
-                throw new HttpException('', HttpStatus.UNAUTHORIZED)
+                throw new HttpException('invalid toeken 2)', HttpStatus.UNAUTHORIZED)
             }
         }
     }
