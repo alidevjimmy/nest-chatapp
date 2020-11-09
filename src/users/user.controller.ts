@@ -1,4 +1,5 @@
-import { Controller, Get, HttpException, HttpStatus, Param, Post } from "@nestjs/common";
+import { Controller, Get, HttpException, HttpStatus, Param, Post, UseGuards } from "@nestjs/common";
+import { AuthGuard } from "src/auth/guard/auth.guard";
 import { APP_CONFIG } from "src/shared/config";
 import { UserService } from "./user.service";
 
@@ -6,11 +7,13 @@ import { UserService } from "./user.service";
 export class UserController {
     constructor(private readonly userService : UserService) {}
 
+    @UseGuards(AuthGuard)
     @Get()
     async findAll() {
         return await this.userService.findAll()
     }
 
+    @UseGuards(AuthGuard)
     @Get(":id")
     async find(@Param('id') id : string) {
         if (!id ) throw new HttpException('user not found!' , HttpStatus.BAD_REQUEST)

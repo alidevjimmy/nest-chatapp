@@ -9,7 +9,7 @@ export class JwtService {
     constructor(private readonly userService: UserService) { }
 
     token(user: {
-        "_id" , "isActive" , "username" , "email" ,"password" , "created" , "updated"
+        "_id" , "isActive" , "username" , "email" , "created" , "updated"
     }): Promise<string> {
         const token = jwt.sign(user, APP_CONFIG.jwtSecert, { expiresIn: '7d' })
         return token

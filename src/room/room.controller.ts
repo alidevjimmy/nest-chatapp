@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Param, Post, Put, UseGuards, UsePipes, ValidationPipe } from "@nestjs/common";
+import { Body, Controller, Get, HttpException, HttpStatus, Param, Post, Put, Query, UseGuards, UsePipes, ValidationPipe } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { GetUser } from "src/auth/decorator/user.decorator";
 import { AuthGuard } from "src/auth/guard/auth.guard";
@@ -20,7 +20,7 @@ export class RoomController {
 
     @UseGuards(AuthGuard)
     @Get('findUsers')
-    async findUsers(@Body('username') username : string , @GetUser() user : User)  {
+    async findUsers(@Query('username') username : string , @GetUser() user : User)  {
         return await this.roomService.findUsers(username , user)
     }
 

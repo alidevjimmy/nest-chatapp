@@ -1,4 +1,5 @@
 import { Document } from "mongoose";
+import { Room } from "src/room/interface/room.interface";
 
 export class User extends Document {
     _id : string
@@ -10,4 +11,5 @@ export class User extends Document {
     updated : Date
     deleted : Date
     token ?: string
+    rooms : Room[]
 }
