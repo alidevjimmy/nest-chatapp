@@ -10,8 +10,13 @@ import { Room } from "./interface/room.interface";
 export class RoomService {
     constructor(@InjectModel('Room') private roomModel: Model<Room>, @InjectModel('User') private userModel: Model<User>) { }
 
-    async findAll(user: User): Promise<User[]> {
-        const rooms = await this.userModel.find({_id : user._id}).populate('rooms')
+    async findAll(user: User): Promise<User> {
+        const rooms = await this.userModel.findOne({_id : user._id}).populate({
+            path : "rooms",
+            populate : {
+                path : 'users'
+            }
+        })
         return rooms
     }
 
@@ -22,7 +27,7 @@ export class RoomService {
         return room
     }
 
-    async findUsers(username: string, user: User): Promise<User[] | Room[]> {
+    async findUsers(username: string, user: User): Promise<User | User[]> {
         if (!username) {
             return this.findAll(user)
         }
@@ -34,7 +39,7 @@ export class RoomService {
     }
 
     async create(data: RoomDto, user: User): Promise<Room> {
-        let targetUser = await this.getUserById(data.tergetUserId)
+        let targetUser = await this.getUserById(data.targetUserId)
         user = await this.getUserById(user._id)
         const roomExists = await this.roomModel.findOne({ $or: [{ users: [user, targetUser] }, { users: [targetUser, user] }] })
         if (roomExists) {
@@ -70,7 +75,7 @@ export class RoomService {
 
         if (!room) {
             const data = {
-                tergetUserId: user._id,
+                targetUserId: user._id,
             }
             room = await this.create(data, user)
         }

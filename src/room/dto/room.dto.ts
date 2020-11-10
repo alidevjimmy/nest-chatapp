@@ -8,7 +8,7 @@ export class RoomDto {
 
     @IsDefined()
     @IsString()
-    tergetUserId : string
+    targetUserId : string
 
     // @IsBoolean()
     // isUser?: boolean
